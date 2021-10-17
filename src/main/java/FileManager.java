@@ -1,8 +1,18 @@
+import Exceptions.ArquivoNaoEncontradoException;
 import java.io.File;
-import java.io.IOException;
 
 public class FileManager {
-    File openFile() throws Exception {
-        throw new IOException();
+    File openFile(String path) throws Exception {
+        try {
+            File file = new File(path);
+
+            if (!file.exists()) {
+                throw new ArquivoNaoEncontradoException();
+            }
+
+            return file;
+        } catch (Exception e) {
+            throw new ArquivoNaoEncontradoException();
+        }
     }
 }

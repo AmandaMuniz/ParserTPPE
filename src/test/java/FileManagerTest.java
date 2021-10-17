@@ -5,11 +5,20 @@ public class FileManagerTest {
     FileManager fileManager = new FileManager();
 
     @Test
-    void openFileTest() {
+    void openTimeFileTest() {
         try {
-            fileManager.openFile();
+            fileManager.openFile("src/analysisTime.out");
         } catch (Exception e) {
-            Assertions.fail("File don't open");
+            Assertions.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void openMemoryFileTest() {
+        try {
+            fileManager.openFile("src/analysisMemory.out");
+        } catch (Exception e) {
+            Assertions.fail(e.getMessage());
         }
     }
 }
