@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="FileManagerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-10-17T22:48:30" hostname="MacBook-Pro-de-Calebe.local" time="0.026">
+<testsuite name="FileManagerTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2021-10-19T13:53:39" hostname="MacBook-Pro-de-Calebe.local" time="0.028">
   <properties/>
-  <testcase name="openFileFailTest()" classname="FileManagerTest" time="0.026"/>
+  <testcase name="readMemoryFileTest()" classname="FileManagerTest" time="0.019"/>
+  <testcase name="readFileFailTest()" classname="FileManagerTest" time="0.003"/>
+  <testcase name="readTimeFileTest()" classname="FileManagerTest" time="0.001"/>
+  <testcase name="openFileFailTest()" classname="FileManagerTest" time="0.001"/>
+  <testcase name="openTimeFileTest()" classname="FileManagerTest" time="0.0"/>
+  <testcase name="openMemoryFileTest()" classname="FileManagerTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
