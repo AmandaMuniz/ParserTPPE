@@ -1,5 +1,7 @@
-import org.junit.jupiter.api.Assertions;
+import Exceptions.ArquivoNaoEncontradoException;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FileManagerTest {
     FileManager fileManager = new FileManager();
@@ -9,7 +11,7 @@ public class FileManagerTest {
         try {
             fileManager.openFile("src/analysisTime.out");
         } catch (Exception e) {
-            Assertions.fail(e.getMessage());
+            fail(e.getMessage());
         }
     }
 
@@ -18,7 +20,14 @@ public class FileManagerTest {
         try {
             fileManager.openFile("src/analysisMemory.out");
         } catch (Exception e) {
-            Assertions.fail(e.getMessage());
+            fail(e.getMessage());
         }
+    }
+
+    @Test
+    void openFileFailTest() {
+        Exception exception = assertThrows(ArquivoNaoEncontradoException.class,
+                () -> fileManager.openFile("src/pathNotFound.out"));
+        assertEquals("src/pathNotFound.out não encontrado", exception.getMessage());
     }
 }

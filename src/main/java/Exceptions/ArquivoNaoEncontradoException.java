@@ -1,7 +1,7 @@
 package Exceptions;
 
 public class ArquivoNaoEncontradoException extends Exception {
-    public ArquivoNaoEncontradoException() {
-        super("Arquivo não encontrado");
+    public ArquivoNaoEncontradoException(String message) {
+        super(message.concat(" não encontrado"));
     }
 }

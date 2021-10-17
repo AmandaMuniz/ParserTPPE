@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="FileManagerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-10-17T22:28:08" hostname="MacBook-Pro-de-Calebe.local" time="0.018">
+<testsuite name="FileManagerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-10-17T22:48:30" hostname="MacBook-Pro-de-Calebe.local" time="0.026">
   <properties/>
-  <testcase name="openTimeFileTest()" classname="FileManagerTest" time="0.016"/>
-  <testcase name="openMemoryFileTest()" classname="FileManagerTest" time="0.001"/>
+  <testcase name="openFileFailTest()" classname="FileManagerTest" time="0.026"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

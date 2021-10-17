@@ -7,12 +7,12 @@ public class FileManager {
             File file = new File(path);
 
             if (!file.exists()) {
-                throw new ArquivoNaoEncontradoException();
+                throw new ArquivoNaoEncontradoException(path);
             }
 
             return file;
         } catch (Exception e) {
-            throw new ArquivoNaoEncontradoException();
+            throw new ArquivoNaoEncontradoException(path);
         }
     }
 }
