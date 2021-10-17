@@ -39,7 +39,7 @@ public class FileManagerTest {
     void readTimeFileTest() {
         try {
             File file = fileManager.openFile("src/analysisTime.out");
-            ArrayList<ArrayList<Integer>> values = fileManager.readFile(file);
+            ArrayList<ArrayList<Double>> values = fileManager.readFile(file);
 
             assertFalse(values.isEmpty());
             assertFalse(values.get(0).isEmpty());
@@ -52,7 +52,7 @@ public class FileManagerTest {
     void readMemoryFileTest() {
         try {
             File file = fileManager.openFile("src/analysisMemory.out");
-            ArrayList<ArrayList<Integer>> values = fileManager.readFile(file);
+            ArrayList<ArrayList<Double>> values = fileManager.readFile(file);
 
             assertFalse(values.isEmpty());
             assertFalse(values.get(0).isEmpty());
@@ -62,9 +62,21 @@ public class FileManagerTest {
     }
 
     @Test
-    void readFileFailTest() {
+    void readNullFileFailTest() {
         Exception exception = assertThrows(ErroDeLeituraException.class,
                 () -> fileManager.readFile(null));
-        assertEquals(" não pode ser lido", exception.getMessage());
+        assertEquals("Arquivo null não pode ser lido", exception.getMessage());
+    }
+
+    @Test
+    void readFileFailTest() {
+        try {
+            File file = fileManager.openFile("src/wrong.out");
+            Exception exception = assertThrows(ErroDeLeituraException.class,
+                    () -> fileManager.readFile(file));
+            assertEquals("src/wrong.out não pode ser lido", exception.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }
