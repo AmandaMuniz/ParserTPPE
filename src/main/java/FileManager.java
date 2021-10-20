@@ -1,5 +1,6 @@
 import Exceptions.ArquivoNaoEncontradoException;
 import Exceptions.ErroDeLeituraException;
+import Exceptions.FormatoInvalidoException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,6 +50,20 @@ public class FileManager {
             } else {
                 throw new ErroDeLeituraException("Arquivo null");
             }
+        }
+    }
+
+    String setOutput(String format) throws Exception {
+        if (format == null) {
+            throw new FormatoInvalidoException("Null");
+        }
+        if (format == "linha") {
+            return format;
+        }
+        if (format == "coluna") {
+            return format;
+        } else {
+            throw new FormatoInvalidoException(format);
         }
     }
 }
