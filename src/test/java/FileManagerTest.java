@@ -79,4 +79,33 @@ public class FileManagerTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    void writeOutputTimeFileTest() {
+        try {
+            FileWriter fileWriter = fileManager.writeOutputFile("src/analysisTimeTab.out", "teste");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void writeOutputMemoryFileTest() {
+        try {
+            FileWriter fileWriter = fileManager.writeOutputFile("src/analysisMemoryTab.out", "teste");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void writeOutputFileFailTest() {
+        try {
+            Exception exception = assertThrows(EscritaNaoPermitidaException.class,
+                    () -> fileManager.writeOutputFile("src/wrong.out", "teste"));
+            assertEquals("src/wrong.out não pode ser escrito", exception.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }
