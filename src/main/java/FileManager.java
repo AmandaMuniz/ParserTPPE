@@ -1,8 +1,10 @@
 import Exceptions.ArquivoNaoEncontradoException;
 import Exceptions.ErroDeLeituraException;
 import Exceptions.FormatoInvalidoException;
+import Exceptions.EscritaNaoPermitidaException;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -66,6 +68,20 @@ public class FileManager {
             } else {
                 throw new FormatoInvalidoException("Null");
             }
+        }  
+    }
+  
+    FileWriter writeOutputFile(String outputFilePath, String text) throws EscritaNaoPermitidaException {
+        try {
+            File file = openFile(outputFilePath);
+            FileWriter fileWriter = new FileWriter(file, true);
+
+            fileWriter.write(text);
+            fileWriter.close();
+
+            return fileWriter;
+        } catch (Exception e) {
+            throw new EscritaNaoPermitidaException(outputFilePath);
         }
     }
 }
