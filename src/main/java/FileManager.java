@@ -1,5 +1,6 @@
 import Exceptions.ArquivoNaoEncontradoException;
 import Exceptions.ErroDeLeituraException;
+import Exceptions.EscritaNaoPermitidaException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -53,16 +54,15 @@ public class FileManager {
         }
     }
 
-    public void writeOutputFile(String outputFilePath, String text) throws EscritaNaoPermitidaException {
+    FileWriter writeOutputFile(String outputFilePath, String text) throws EscritaNaoPermitidaException {
         try {
-            FileWriter fileWriter = new FileWriter(outputFilePath);
-
-            if (!fileWriter.exists()) {
-                throw new ArquivoNaoEncontradoException(outputFilePath);
-            }
+            File file = openFile(outputFilePath);
+            FileWriter fileWriter = new FileWriter(file, true);
 
             fileWriter.write(text);
             fileWriter.close();
+
+            return fileWriter;
         } catch (Exception e) {
             throw new EscritaNaoPermitidaException(outputFilePath);
         }
