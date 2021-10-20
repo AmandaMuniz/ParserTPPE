@@ -2,6 +2,7 @@ import Exceptions.ArquivoNaoEncontradoException;
 import Exceptions.ErroDeLeituraException;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -49,6 +50,21 @@ public class FileManager {
             } else {
                 throw new ErroDeLeituraException("Arquivo null");
             }
+        }
+    }
+
+    public void writeOutputFile(String outputFilePath, String text) throws EscritaNaoPermitidaException {
+        try {
+            FileWriter fileWriter = new FileWriter(outputFilePath);
+
+            if (!fileWriter.exists()) {
+                throw new ArquivoNaoEncontradoException(outputFilePath);
+            }
+
+            fileWriter.write(text);
+            fileWriter.close();
+        } catch (Exception e) {
+            throw new EscritaNaoPermitidaException(outputFilePath);
         }
     }
 }
