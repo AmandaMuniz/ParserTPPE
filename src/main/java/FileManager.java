@@ -1,5 +1,6 @@
 import Exceptions.ArquivoNaoEncontradoException;
 import Exceptions.ErroDeLeituraException;
+import Exceptions.FormatoInvalidoException;
 import Exceptions.EscritaNaoPermitidaException;
 
 import java.io.File;
@@ -54,6 +55,22 @@ public class FileManager {
         }
     }
 
+    String setOutput(String format) throws Exception {
+        try {
+            if (format.contains("linha") || format.contains("coluna")) {
+                return format;
+            } else {
+                throw new FormatoInvalidoException(format);
+            }
+        } catch (Exception e) {
+            if (format != null) {
+                throw new FormatoInvalidoException(format);
+            } else {
+                throw new FormatoInvalidoException("Null");
+            }
+        }  
+    }
+  
     FileWriter writeOutputFile(String outputFilePath, String text) throws EscritaNaoPermitidaException {
         try {
             File file = openFile(outputFilePath);
