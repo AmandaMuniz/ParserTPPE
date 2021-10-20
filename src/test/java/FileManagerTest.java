@@ -1,8 +1,10 @@
 import Exceptions.ArquivoNaoEncontradoException;
 import Exceptions.ErroDeLeituraException;
 
+import Exceptions.EscritaNaoPermitidaException;
 import org.junit.jupiter.api.Test;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +34,7 @@ public class FileManagerTest {
     void openFileFailTest() {
         Exception exception = assertThrows(ArquivoNaoEncontradoException.class,
                 () -> fileManager.openFile("src/pathNotFound.out"));
-        assertEquals("src/pathNotFound.out não encontrado", exception.getMessage());
+        assertEquals("src/pathNotFound.out nao encontrado", exception.getMessage());
     }
 
     @Test
@@ -65,7 +67,7 @@ public class FileManagerTest {
     void readNullFileFailTest() {
         Exception exception = assertThrows(ErroDeLeituraException.class,
                 () -> fileManager.readFile(null));
-        assertEquals("Arquivo null não pode ser lido", exception.getMessage());
+        assertEquals("Arquivo null nao pode ser lido", exception.getMessage());
     }
 
     @Test
@@ -74,7 +76,36 @@ public class FileManagerTest {
             File file = fileManager.openFile("src/wrong.out");
             Exception exception = assertThrows(ErroDeLeituraException.class,
                     () -> fileManager.readFile(file));
-            assertEquals("src/wrong.out não pode ser lido", exception.getMessage());
+            assertEquals("src/wrong.out nao pode ser lido", exception.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void writeOutputTimeFileTest() {
+        try {
+            FileWriter fileWriter = fileManager.writeOutputFile("src/analysisTimeTab.out", "teste");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void writeOutputMemoryFileTest() {
+        try {
+            FileWriter fileWriter = fileManager.writeOutputFile("src/analysisMemoryTab.out", "teste");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void writeOutputFileFailTest() {
+        try {
+            Exception exception = assertThrows(EscritaNaoPermitidaException.class,
+                    () -> fileManager.writeOutputFile("src/pathNotFound.out", "teste"));
+            assertEquals("src/pathNotFound.out nao pode ser escrito", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
         }

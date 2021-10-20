@@ -2,6 +2,6 @@ package Exceptions;
 
 public class ErroDeLeituraException extends Exception {
     public ErroDeLeituraException(String message) {
-        super(message.concat(" não pode ser lido"));
+        super(message.concat(" nao pode ser lido"));
     }
 }
