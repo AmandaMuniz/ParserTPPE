@@ -1,7 +1,4 @@
-import Exceptions.ArquivoNaoEncontradoException;
-import Exceptions.ErroDeLeituraException;
-import Exceptions.FormatoInvalidoException;
-import Exceptions.EscritaNaoPermitidaException;
+import Exceptions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -143,6 +140,26 @@ public class FileManagerTest {
             Exception exception = assertThrows(FormatoInvalidoException.class,
                     () -> fileManager.setOutput("asdasff"));
             assertEquals("asdasff e um formato invalido", exception.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void setDelimiterTest() {
+        try {
+            fileManager.setDelimiter(";");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void setInvalidDelimiterTest() {
+        try {
+            Exception exception = assertThrows(DelimitadorInvalidoException.class,
+                    () -> fileManager.setDelimiter("invalid"));
+            assertEquals("invalid nao é válido como delimitador", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
         }
