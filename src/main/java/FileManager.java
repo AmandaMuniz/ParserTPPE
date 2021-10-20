@@ -54,16 +54,18 @@ public class FileManager {
     }
 
     String setOutput(String format) throws Exception {
-        if (format == null) {
-            throw new FormatoInvalidoException("Null");
-        }
-        if (format == "linha") {
-            return format;
-        }
-        if (format == "coluna") {
-            return format;
-        } else {
-            throw new FormatoInvalidoException(format);
+        try {
+            if (format.contains("linha") || format.contains("coluna")) {
+                return format;
+            } else {
+                throw new FormatoInvalidoException(format);
+            }
+        } catch (Exception e) {
+            if (format != null) {
+                throw new FormatoInvalidoException(format);
+            } else {
+                throw new FormatoInvalidoException("Null");
+            }
         }
     }
 }
