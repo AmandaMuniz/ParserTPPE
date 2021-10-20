@@ -1,7 +1,4 @@
-import Exceptions.ArquivoNaoEncontradoException;
-import Exceptions.ErroDeLeituraException;
-import Exceptions.FormatoInvalidoException;
-import Exceptions.EscritaNaoPermitidaException;
+import Exceptions.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -83,5 +80,13 @@ public class FileManager {
         } catch (Exception e) {
             throw new EscritaNaoPermitidaException(outputFilePath);
         }
+    }
+
+    Character setDelimiter(String delimiter) throws DelimitadorInvalidoException {
+        if (delimiter.length() > 1) {
+            throw new DelimitadorInvalidoException(delimiter);
+        }
+
+        return 'a';
     }
 }
