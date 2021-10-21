@@ -1,9 +1,7 @@
 import Exceptions.*;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,7 +82,8 @@ public class FileManagerTest {
     @Test
     void writeOutputTimeFileTest() {
         try {
-            FileWriter fileWriter = fileManager.writeOutputFile("src/analysisTimeTab.out", "teste");
+            File file = fileManager.openFile("src/analysisTimeTab.test");
+            fileManager.writeOutputFile(file, "teste");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -93,7 +92,8 @@ public class FileManagerTest {
     @Test
     void writeOutputMemoryFileTest() {
         try {
-            FileWriter fileWriter = fileManager.writeOutputFile("src/analysisMemoryTab.out", "teste");
+            File file = fileManager.openFile("src/analysisMemoryTab.test");
+            fileManager.writeOutputFile(file, "teste");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -102,9 +102,11 @@ public class FileManagerTest {
     @Test
     void writeOutputFileFailTest() {
         try {
+            File file = fileManager.openFile("src/pathNotFound.test");
+            file.setWritable(false);
             Exception exception = assertThrows(EscritaNaoPermitidaException.class,
-                    () -> fileManager.writeOutputFile("src/pathNotFound.out", "teste"));
-            assertEquals("src/pathNotFound.out nao pode ser escrito", exception.getMessage());
+                    () -> fileManager.writeOutputFile(file, "teste"));
+            assertEquals("src/pathNotFound.test nao pode ser escrito", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
         }
