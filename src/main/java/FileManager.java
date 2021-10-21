@@ -65,20 +65,17 @@ public class FileManager {
             } else {
                 throw new FormatoInvalidoException("Null");
             }
-        }  
+        }
     }
   
-    FileWriter writeOutputFile(String outputFilePath, String text) throws EscritaNaoPermitidaException {
+    void writeOutputFile(File outputFile, String text) throws EscritaNaoPermitidaException {
         try {
-            File file = openFile(outputFilePath);
-            FileWriter fileWriter = new FileWriter(file, true);
+            FileWriter fileWriter = new FileWriter(outputFile, true);
 
             fileWriter.write(text);
             fileWriter.close();
-
-            return fileWriter;
         } catch (Exception e) {
-            throw new EscritaNaoPermitidaException(outputFilePath);
+            throw new EscritaNaoPermitidaException(outputFile.getPath());
         }
     }
 
@@ -87,6 +84,6 @@ public class FileManager {
             throw new DelimitadorInvalidoException(delimiter);
         }
 
-        return 'a';
+        return delimiter.charAt(0);
     }
 }
