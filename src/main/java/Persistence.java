@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FileManager {
+public class Persistence {
     File openFile(String path) throws Exception {
         try {
             File file = new File(path);
@@ -20,7 +20,7 @@ public class FileManager {
         }
     }
 
-    ArrayList<ArrayList<Double>> readFile(File file) throws Exception {
+    ArrayList<ArrayList<Double>> readInputFile(File file) throws Exception {
         try {
             Scanner scanner = new Scanner(file);
             ArrayList<ArrayList<Double>> values = new ArrayList<>();
@@ -52,6 +52,65 @@ public class FileManager {
         }
     }
 
+    void writeOutputFile(String inputPath, String outputPath, String form, String delimiter) throws Exception {
+        File file = openFile(inputPath);
+
+        ArrayList<ArrayList<Double>> evolutions = readInputFile(file);
+
+        String formOutput = setOutput(form);
+        Character charDelimiter = setDelimiter(delimiter);
+
+        File outputFile = openFile(outputPath);
+
+        int countEvolution = 1;
+
+        if (formOutput.contains("linha")) {
+            for (ArrayList<Double> evolution: evolutions) {
+                int countMemory = 1;
+
+                writeOutputFile(outputFile, String.valueOf(countEvolution));
+                writeOutputFile(outputFile, charDelimiter.toString());
+
+                for (Double memory: evolution) {
+                    writeOutputFile(outputFile, memory.toString());
+
+                    if (evolution.size() != countMemory) {
+                        writeOutputFile(outputFile, charDelimiter.toString());
+                    }
+
+                    countMemory++;
+                }
+
+                writeOutputFile(outputFile, "\n");
+                countEvolution++;
+            }
+        } else {
+            int evolutionSize = evolutions.size();
+
+            for (int j = 1; j <= evolutionSize; j++) {
+                writeOutputFile(outputFile, String.valueOf(j));
+
+                if (j != evolutionSize) {
+                    writeOutputFile(outputFile, charDelimiter.toString());
+                }
+            }
+
+            writeOutputFile(outputFile, "\n");
+
+            for (int i = 0; i < evolutionSize - 1; i++) {
+                for (int j = 0; j < evolutionSize - 1; j++) {
+                    if (i < evolutions.get(j).size()) {
+                        writeOutputFile(outputFile, evolutions.get(j).get(i).toString());
+                        if (j != evolutionSize - 1) {
+                            writeOutputFile(outputFile, charDelimiter.toString());
+                        }
+                    }
+                }
+                writeOutputFile(outputFile, "\n");
+            }
+        }
+    }
+
     String setOutput(String format) throws Exception {
         try {
             if (format.contains("linha") || format.contains("coluna")) {
@@ -67,7 +126,7 @@ public class FileManager {
             }
         }
     }
-  
+
     void writeOutputFile(File outputFile, String text) throws EscritaNaoPermitidaException {
         try {
             FileWriter fileWriter = new FileWriter(outputFile, true);

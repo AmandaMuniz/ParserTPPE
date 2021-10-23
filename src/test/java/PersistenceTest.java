@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FileManagerTest {
-    FileManager fileManager = new FileManager();
+public class PersistenceTest {
+    Persistence persistence = new Persistence();
 
     @Test
     void openTimeFileTest() {
         try {
-            fileManager.openFile("src/analysisTime.out");
+            persistence.openFile("src/analysisTime.out");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -21,7 +21,7 @@ public class FileManagerTest {
     @Test
     void openMemoryFileTest() {
         try {
-            fileManager.openFile("src/analysisMemory.out");
+            persistence.openFile("src/analysisMemory.out");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -30,15 +30,15 @@ public class FileManagerTest {
     @Test
     void openFileFailTest() {
         Exception exception = assertThrows(ArquivoNaoEncontradoException.class,
-                () -> fileManager.openFile("src/pathNotFound.out"));
+                () -> persistence.openFile("src/pathNotFound.out"));
         assertEquals("src/pathNotFound.out nao encontrado", exception.getMessage());
     }
 
     @Test
     void readTimeFileTest() {
         try {
-            File file = fileManager.openFile("src/analysisTime.out");
-            ArrayList<ArrayList<Double>> values = fileManager.readFile(file);
+            File file = persistence.openFile("src/analysisTime.out");
+            ArrayList<ArrayList<Double>> values = persistence.readInputFile(file);
 
             assertFalse(values.isEmpty());
             assertFalse(values.get(0).isEmpty());
@@ -50,8 +50,8 @@ public class FileManagerTest {
     @Test
     void readMemoryFileTest() {
         try {
-            File file = fileManager.openFile("src/analysisMemory.out");
-            ArrayList<ArrayList<Double>> values = fileManager.readFile(file);
+            File file = persistence.openFile("src/analysisMemory.out");
+            ArrayList<ArrayList<Double>> values = persistence.readInputFile(file);
 
             assertFalse(values.isEmpty());
             assertFalse(values.get(0).isEmpty());
@@ -63,16 +63,16 @@ public class FileManagerTest {
     @Test
     void readNullFileFailTest() {
         Exception exception = assertThrows(ErroDeLeituraException.class,
-                () -> fileManager.readFile(null));
+                () -> persistence.readInputFile(null));
         assertEquals("Arquivo null nao pode ser lido", exception.getMessage());
     }
 
     @Test
     void readFileFailTest() {
         try {
-            File file = fileManager.openFile("src/wrong.out");
+            File file = persistence.openFile("src/wrong.out");
             Exception exception = assertThrows(ErroDeLeituraException.class,
-                    () -> fileManager.readFile(file));
+                    () -> persistence.readInputFile(file));
             assertEquals("src/wrong.out nao pode ser lido", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
@@ -82,8 +82,8 @@ public class FileManagerTest {
     @Test
     void writeOutputTimeFileTest() {
         try {
-            File file = fileManager.openFile("src/analysisTimeTab.test");
-            fileManager.writeOutputFile(file, "teste");
+            File file = persistence.openFile("src/analysisTimeTab.test");
+            persistence.writeOutputFile(file, "teste");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -92,8 +92,8 @@ public class FileManagerTest {
     @Test
     void writeOutputMemoryFileTest() {
         try {
-            File file = fileManager.openFile("src/analysisMemoryTab.test");
-            fileManager.writeOutputFile(file, "teste");
+            File file = persistence.openFile("src/analysisMemoryTab.test");
+            persistence.writeOutputFile(file, "teste");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -102,10 +102,10 @@ public class FileManagerTest {
     @Test
     void writeOutputFileFailTest() {
         try {
-            File file = fileManager.openFile("src/pathNotFound.test");
+            File file = persistence.openFile("src/pathNotFound.test");
             file.setWritable(false);
             Exception exception = assertThrows(EscritaNaoPermitidaException.class,
-                    () -> fileManager.writeOutputFile(file, "teste"));
+                    () -> persistence.writeOutputFile(file, "teste"));
             assertEquals("src/pathNotFound.test nao pode ser escrito", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
@@ -117,7 +117,7 @@ public class FileManagerTest {
         try {
             String format = null;
             Exception exception = assertThrows(FormatoInvalidoException.class,
-                    () -> fileManager.setOutput(format));
+                    () -> persistence.setOutput(format));
             assertEquals("Null e um formato invalido", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
@@ -129,8 +129,8 @@ public class FileManagerTest {
         try {
             String lineFormat = "linha";
             String columnFormat = "coluna";
-            assertEquals(lineFormat, fileManager.setOutput(lineFormat));
-            assertEquals(columnFormat, fileManager.setOutput(columnFormat));
+            assertEquals(lineFormat, persistence.setOutput(lineFormat));
+            assertEquals(columnFormat, persistence.setOutput(columnFormat));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -140,7 +140,7 @@ public class FileManagerTest {
     void setOutputInvalidTest() {
         try {
             Exception exception = assertThrows(FormatoInvalidoException.class,
-                    () -> fileManager.setOutput("asdasff"));
+                    () -> persistence.setOutput("asdasff"));
             assertEquals("asdasff e um formato invalido", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
@@ -150,7 +150,7 @@ public class FileManagerTest {
     @Test
     void setDelimiterTest() {
         try {
-            fileManager.setDelimiter(";");
+            persistence.setDelimiter(";");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -160,7 +160,7 @@ public class FileManagerTest {
     void setInvalidDelimiterTest() {
         try {
             Exception exception = assertThrows(DelimitadorInvalidoException.class,
-                    () -> fileManager.setDelimiter("invalid"));
+                    () -> persistence.setDelimiter("invalid"));
             assertEquals("invalid nao é válido como delimitador", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
