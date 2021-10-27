@@ -1,0 +1,8 @@
+Testes passando (50%)? 50%
+Formatos dos arquivods (50%)? 30%
+  --> Arquivo de tempo está imprimindo registros alem daqueles que estão
+contidos no arquivo original.
+
+Nota final: 80%
+
+Comentarios:
