@@ -52,63 +52,24 @@ public class Persistence {
         }
     }
 
-    void writeOutputFile(String inputPath, String outputPath, String form, String delimiter) throws Exception {
+    void writeOutputFile(String inputPath, String outputPath, String delimiter, String form) throws Exception {
         File file = openFile(inputPath);
-
-        ArrayList<ArrayList<Double>> evolutions = readInputFile(file);
-
-        String formOutput = setOutput(form);
-        Character charDelimiter = setDelimiter(delimiter);
-
         File outputFile = openFile(outputPath);
 
-        int countEvolution = 1;
+        ArrayList<ArrayList<Double>> evolutions = readInputFile(file);
+        String formOutput = setOutput(form);
+
+        Character charDelimiter = setDelimiter(delimiter);
+
+        OutputFileManager outputFileManager = new OutputFileManager(outputFile, evolutions, charDelimiter);
 
         if (formOutput.contains("linha")) {
-            for (ArrayList<Double> evolution: evolutions) {
-                int countMemory = 1;
-
-                writeOutputFile(outputFile, String.valueOf(countEvolution));
-                writeOutputFile(outputFile, charDelimiter.toString());
-
-                for (Double memory: evolution) {
-                    writeOutputFile(outputFile, memory.toString());
-
-                    if (evolution.size() != countMemory) {
-                        writeOutputFile(outputFile, charDelimiter.toString());
-                    }
-
-                    countMemory++;
-                }
-
-                writeOutputFile(outputFile, "\n");
-                countEvolution++;
-            }
+            outputFileManager.writeOutputFileInLine();
         } else {
-            int evolutionSize = evolutions.size();
-
-            for (int j = 1; j <= evolutionSize; j++) {
-                writeOutputFile(outputFile, String.valueOf(j));
-
-                if (j != evolutionSize) {
-                    writeOutputFile(outputFile, charDelimiter.toString());
-                }
-            }
-
-            writeOutputFile(outputFile, "\n");
-
-            for (int i = 0; i < evolutionSize - 1; i++) {
-                for (int j = 0; j < evolutionSize - 1; j++) {
-                    if (i < evolutions.get(j).size()) {
-                        writeOutputFile(outputFile, evolutions.get(j).get(i).toString());
-                        if (j != evolutionSize - 1) {
-                            writeOutputFile(outputFile, charDelimiter.toString());
-                        }
-                    }
-                }
-                writeOutputFile(outputFile, "\n");
-            }
+            outputFileManager.writeOutputFileInColumn();
         }
+
+
     }
 
     String setOutput(String format) throws Exception {
@@ -124,17 +85,6 @@ public class Persistence {
             } else {
                 throw new FormatoInvalidoException("Null");
             }
-        }
-    }
-
-    void writeOutputFile(File outputFile, String text) throws EscritaNaoPermitidaException {
-        try {
-            FileWriter fileWriter = new FileWriter(outputFile, true);
-
-            fileWriter.write(text);
-            fileWriter.close();
-        } catch (Exception e) {
-            throw new EscritaNaoPermitidaException(outputFile.getPath());
         }
     }
 
