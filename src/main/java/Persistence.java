@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FileManager {
+public class Persistence {
     File openFile(String path) throws Exception {
         try {
             File file = new File(path);
@@ -20,7 +20,7 @@ public class FileManager {
         }
     }
 
-    ArrayList<ArrayList<Double>> readFile(File file) throws Exception {
+    ArrayList<ArrayList<Double>> readInputFile(File file) throws Exception {
         try {
             Scanner scanner = new Scanner(file);
             ArrayList<ArrayList<Double>> values = new ArrayList<>();
@@ -52,6 +52,26 @@ public class FileManager {
         }
     }
 
+    void writeOutputFile(String inputPath, String outputPath, String delimiter, String form) throws Exception {
+        File file = openFile(inputPath);
+        File outputFile = openFile(outputPath);
+
+        ArrayList<ArrayList<Double>> evolutions = readInputFile(file);
+        String formOutput = setOutput(form);
+
+        Character charDelimiter = setDelimiter(delimiter);
+
+        OutputFileManager outputFileManager = new OutputFileManager(outputFile, evolutions, charDelimiter);
+
+        outputFileManager.clearOutputFile(outputFile);
+
+        if (formOutput.contains("linha")) {
+            outputFileManager.writeOutputFileInLine();
+        } else {
+            outputFileManager.writeOutputFileInColumn();
+        }
+    }
+
     String setOutput(String format) throws Exception {
         try {
             if (format.contains("linha") || format.contains("coluna")) {
@@ -65,17 +85,6 @@ public class FileManager {
             } else {
                 throw new FormatoInvalidoException("Null");
             }
-        }
-    }
-  
-    void writeOutputFile(File outputFile, String text) throws EscritaNaoPermitidaException {
-        try {
-            FileWriter fileWriter = new FileWriter(outputFile, true);
-
-            fileWriter.write(text);
-            fileWriter.close();
-        } catch (Exception e) {
-            throw new EscritaNaoPermitidaException(outputFile.getPath());
         }
     }
 
