@@ -11,6 +11,39 @@ class OutputFileManagerTest {
     Persistence persistence = new Persistence();
 
     @Test
+    void clearOutputTimeFileTest() {
+        try {
+            File file = persistence.openFile("src/analysisTimeTab.test");
+            outputFileManager.clearOutputFile(file);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void clearOutputMemoryFileTest() {
+        try {
+            File file = persistence.openFile("src/analysisMemoryTab.test");
+            outputFileManager.clearOutputFile(file);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    void clearOutputFileFailTest() {
+        try {
+            File file = persistence.openFile("src/pathNotFound.test");
+            file.setWritable(false);
+            Exception exception = assertThrows(EscritaNaoPermitidaException.class,
+                    () -> outputFileManager.clearOutputFile(file));
+            assertEquals(file.getPath() + " nao pode ser escrito", exception.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
     void writeOutputTimeFileTest() {
         try {
             File file = persistence.openFile("src/analysisTimeTab.test");
@@ -37,10 +70,9 @@ class OutputFileManagerTest {
             file.setWritable(false);
             Exception exception = assertThrows(EscritaNaoPermitidaException.class,
                     () -> outputFileManager.writeOutputFile(file, "teste"));
-            assertEquals("src/pathNotFound.test nao pode ser escrito", exception.getMessage());
+            assertEquals(file.getPath() + " nao pode ser escrito", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
         }
     }
-
 }

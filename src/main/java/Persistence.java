@@ -63,13 +63,13 @@ public class Persistence {
 
         OutputFileManager outputFileManager = new OutputFileManager(outputFile, evolutions, charDelimiter);
 
+        outputFileManager.clearOutputFile(outputFile);
+
         if (formOutput.contains("linha")) {
             outputFileManager.writeOutputFileInLine();
         } else {
             outputFileManager.writeOutputFileInColumn();
         }
-
-
     }
 
     String setOutput(String format) throws Exception {

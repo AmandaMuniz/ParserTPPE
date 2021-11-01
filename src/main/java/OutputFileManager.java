@@ -2,6 +2,7 @@ import Exceptions.EscritaNaoPermitidaException;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class OutputFileManager {
@@ -21,6 +22,16 @@ public class OutputFileManager {
     };
 
     OutputFileManager(){};
+
+    void clearOutputFile(File file) throws EscritaNaoPermitidaException {
+        try {
+            PrintWriter fileWriter = new PrintWriter(file);
+            fileWriter.print("");
+            fileWriter.close();
+        } catch (Exception e) {
+            throw new EscritaNaoPermitidaException(file.getPath());
+        }
+    }
 
     void writeOutputFileInLine() throws Exception {
         int countEvolutions = 1;

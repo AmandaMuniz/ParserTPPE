@@ -73,7 +73,7 @@ public class PersistenceTest {
             File file = persistence.openFile("src/wrong.out");
             Exception exception = assertThrows(ErroDeLeituraException.class,
                     () -> persistence.readInputFile(file));
-            assertEquals("src/wrong.out nao pode ser lido", exception.getMessage());
+            assertEquals(file.getPath() + " nao pode ser lido", exception.getMessage());
         } catch (Exception e) {
             fail(e.getMessage());
         }
