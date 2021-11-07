@@ -1,0 +1,9 @@
+Extrair metodo (10%) ? OK
+Substituir método por objeto-metodo (30%) ?NOK, o objeto-metodo nao tem o metodo
+computar nem referencia para a classe de origem. 
+
+Extrair classe (20%) ? OK
+
+Nota final: 30
+
+Comentarios:
